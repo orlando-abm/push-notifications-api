@@ -2,28 +2,48 @@ require('dotenv').config()
 const axios = require('axios');
 const { TrackClient, RegionUS } = require('customerio-node');
 
-const addTokenDevice = (req, res) => {
-    let cio = new TrackClient(process.env.SITE_ID, process.env.API_KEY, { region: RegionUS });
-    const { email, platform, deviceId } = req.body
-    cio.addDevice(
-        email,
-        deviceId,
-        platform,
-        { primary: true })
-        .then(resp => {
-            res.status(200).json({
-                status: 200,
-                success: true,
-                message: resp
-            })
+const addTokenDevice = async (req, res) => {
+    try {
+        let cio = new TrackClient(process.env.SITE_ID, process.env.API_KEY, { region: RegionUS });
+        const { email, platform, deviceId } = req.body
+        let resp = await cio.addDevice(
+            email,
+            deviceId,
+            platform,
+            { primary: true })
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: resp
         })
-        .catch(e => {
-            res.status(400).json({
-                status: 400,
-                success: false,
-                message: e.body
-            })
+    } catch (e) {
+        res.status(400).json({
+            status: 400,
+            success: false,
+            message: e
         })
+    }
+
+}
+
+const deleteTokenDevice = async (req, res) => {
+    try {
+        let cio = new TrackClient(process.env.SITE_ID, process.env.API_KEY, { region: RegionUS });
+        const { email, deviceId } = req.body
+        let resp = await cio.deleteDevice(email, deviceId)
+        res.status(200).json({
+            status: 200,
+            success: true,
+            message: resp
+        })
+    } catch (e) {
+        res.status(400).json({
+            status: 400,
+            success: false,
+            message: e
+        })
+    }
+
 }
 
 const _getCustomerId = async (email) => {
@@ -64,5 +84,6 @@ const getCustomerDevices = async (email) => {
 
 module.exports = {
     addTokenDevice,
+    deleteTokenDevice,
     getCustomerDevices
 }

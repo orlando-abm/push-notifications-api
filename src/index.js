@@ -18,7 +18,7 @@ app.use(morgan(('combined'), {
 
 const PORT = process.env.PORT || 3000;
 
-app.use('/api', customerRouter)
+app.use('/api/customer', customerRouter)
 app.use('/api/notifications',notificationsRouter)
 
 app.listen(PORT, () => {

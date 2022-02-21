@@ -4,14 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/api",
-    "dev": "nodemon src/api"
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.0",
+    "cors": "^2.8.5",
     "customerio-node": "^3.2.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
